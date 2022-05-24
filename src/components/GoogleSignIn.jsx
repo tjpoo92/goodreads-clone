@@ -2,8 +2,6 @@ import googleIcon from "../assets/svg/googleIcon.svg";
 import { supabase } from "../supabaseClient";
 import { useLocation } from "react-router-dom";
 
-// TODO: styling
-
 function GoogleSignIn() {
 	const location = useLocation();
 	async function signInWithGoogle() {
@@ -12,10 +10,10 @@ function GoogleSignIn() {
 		});
 	}
 	return (
-		<div className="socialLogin">
+		<div className="flex flex-col items-center justify-center">
 			<p>Sign {location.pathname === "/sign-up" ? "up" : "in"} with </p>
-			<button className="socialIconDiv" onClick={signInWithGoogle}>
-				<img className="socialIconImg" src={googleIcon} alt="Google" />
+			<button onClick={signInWithGoogle}>
+				<img className="h-12 w-12" src={googleIcon} alt="Google" />
 			</button>
 		</div>
 	);

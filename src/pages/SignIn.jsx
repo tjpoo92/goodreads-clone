@@ -5,6 +5,8 @@ import { toast } from "react-toastify";
 import Spinner from "../components/Spinner";
 import GoogleSignIn from "../components/GoogleSignIn";
 
+//TODO: show password
+
 function SignIn() {
 	const [loading, setLoading] = useState(false);
 	const [formData, setFormData] = useState({
@@ -42,13 +44,13 @@ function SignIn() {
 	};
 
 	return (
-		<div className="flex flex-col justify-center h-screen items-center">
+		<div className="flex flex-col justify-center h-screen items-center bg-gray-50">
 			<h1 className="text-4xl">Sign In</h1>
 
 			{loading ? (
 				<Spinner />
 			) : (
-				<div className="">
+				<div className="flex flex-col justify-center items-center">
 					<form
 						onSubmit={onSubmit}
 						className="flex flex-col items-center justify-center">
@@ -68,13 +70,16 @@ function SignIn() {
 							placeholder="Your password"
 							value={password}
 							onChange={onChange}
+							required
 						/>
 						<button className="rounded bg-slate-200 m-3 p-2">Submit</button>
 					</form>
-					<hr />
+					<Link to="/forgot-password">Forgot Password?</Link>
+					<Link to="/sign-up" className="my-3">
+						Sign Up Instead
+					</Link>
+
 					<GoogleSignIn />
-					<hr />
-					<Link to="/sign-up">Sign Up Instead</Link>
 				</div>
 			)}
 		</div>

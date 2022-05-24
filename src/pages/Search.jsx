@@ -1,9 +1,26 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { toast } from "react-toastify";
 import { ReactComponent as SearchIcon } from "../assets/svg/magnifyingGlass.svg";
+import RecoverPassword from "../components/RecoverPassword";
 
 function Search() {
 	const [searchContent, setSearchContent] = useState("");
+	const [recoveryToken, setRecoveryToken] = useState(null);
+
+	useEffect(() => {
+		let url = window.location.hash;
+		let query = url.slice(1);
+		let result = {};
+
+		query.split("&").forEach((part) => {
+			const item = part.split("=");
+			result[item[0]] = decodeURIComponent(item[1]);
+		});
+
+		if (result.type === "recovery") {
+			setRecoveryToken(result.access_token);
+		}
+	}, []);
 
 	const onChange = (e) => {
 		setSearchContent(e.target.value);
@@ -23,8 +40,17 @@ function Search() {
 		}
 	};
 
+	if (recoveryToken) {
+		return (
+			<RecoverPassword
+				token={recoveryToken}
+				setRecoveryToken={setRecoveryToken}
+			/>
+		);
+	}
+
 	return (
-		<div className="flex justify-center h-screen">
+		<div className="flex justify-center h-screen bg-gray-50">
 			<div className="self-center">
 				<form onSubmit={onSubmit}>
 					<input
