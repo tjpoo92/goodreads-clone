@@ -51,3 +51,5 @@ const RecoverPassword = ({ token, setRecoveryToken }) => {
 };
 
 export default RecoverPassword;
+
+// https://github.com/supabase/supabase/blob/master/examples/todo-list/react-todo-list/src/components/RecoverPassword.js

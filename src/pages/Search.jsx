@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import { ReactComponent as SearchIcon } from "../assets/svg/magnifyingGlass.svg";
 import RecoverPassword from "../components/RecoverPassword";
@@ -6,6 +7,8 @@ import RecoverPassword from "../components/RecoverPassword";
 function Search() {
 	const [searchContent, setSearchContent] = useState("");
 	const [recoveryToken, setRecoveryToken] = useState(null);
+
+	const navigate = useNavigate();
 
 	useEffect(() => {
 		let url = window.location.hash;
@@ -29,14 +32,17 @@ function Search() {
 	const onSubmit = async (e) => {
 		e.preventDefault();
 		try {
-			// const response = await fetch(
-			// 	`http://openlibrary.org/search.json?q=${searchContent}`
-			// );
-			// const data = await response.json();
+			const response = await fetch(
+				`http://openlibrary.org/search.json?q=${searchContent}`
+			);
+			const data = await response.json();
 			//Some function to send data to and navigate to search results
-			console.log("data");
+			console.log(data);
+			navigate(`/search-results/${searchContent.replace(/\s/g, "+")}`, {
+				state: { data: data },
+			});
 		} catch (error) {
-			toast.error("Could not search, please try again");
+			toast.error("Search returned no results, please try again");
 		}
 	};
 

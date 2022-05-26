@@ -32,7 +32,7 @@ function Profile() {
 			<div className="relative mx-3">
 				<h1 className="text-4xl absolute inset-x-0 top-0 p-2">Profile</h1>
 				<button
-					className="rounded bg-slate-200 m-3 p-2 absolute top-0 right-0"
+					className="btn absolute top-0 right-0"
 					type="button"
 					onClick={() => supabase.auth.signOut()}>
 					Sign Out
@@ -87,10 +87,7 @@ function Profile() {
 						disabled={!updateProfile}
 						className="border-2 border-black rounded p-1 focus-visible:outline-none m-3"
 					/> */}
-					<button
-						type="button"
-						className="rounded bg-slate-200 m-3 p-2 col-span-2"
-						onClick={onClick}>
+					<button type="button" className="btn col-span-2" onClick={onClick}>
 						{updateProfile ? "Done" : "Update Profile"}
 					</button>
 				</form>

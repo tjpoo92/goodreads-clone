@@ -1,3 +1,12 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@layer components {
+	.btn {
+		border-radius: theme("borderRadius.DEFAULT");
+		background-color: theme("colors.slate.200");
+		padding: theme("spacing.2");
+		margin: theme("spacing.3");
+	}
+}

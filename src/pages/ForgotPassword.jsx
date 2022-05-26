@@ -48,7 +48,7 @@ function ForgotPassword() {
 						className="border-2 border-black rounded p-1 focus-visible:outline-none m-3"
 						required
 					/>
-					<button type="submit" className="rounded bg-slate-200 m-3 p-2">
+					<button type="submit" className="btn">
 						Submit
 					</button>
 				</form>

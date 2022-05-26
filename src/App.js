@@ -9,6 +9,7 @@ import SignIn from "./pages/SignIn";
 import Profile from "./pages/Profile";
 import SignUp from "./pages/SignUp";
 import ForgotPassword from "./pages/ForgotPassword";
+import SearchResults from "./pages/SearchResults";
 import PrivateRoute from "./components/PrivateRoute";
 
 function App() {
@@ -18,6 +19,10 @@ function App() {
 				<Routes>
 					<Route path="/" element={<Search />} />
 					<Route path="/bookshelf" element={<Bookshelf />} />
+					<Route
+						path="/search-results/:searchContent"
+						element={<SearchResults />}
+					/>
 					<Route path="/profile" element={<PrivateRoute />}>
 						<Route path="/profile" element={<Profile />} />
 					</Route>

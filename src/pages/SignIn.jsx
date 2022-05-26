@@ -28,7 +28,7 @@ function SignIn() {
 		e.preventDefault();
 		try {
 			setLoading(true);
-			const { user, session, error } = await supabase.auth.signIn({
+			const { user, error } = await supabase.auth.signIn({
 				email: email,
 				password: password,
 			});
@@ -72,7 +72,7 @@ function SignIn() {
 							onChange={onChange}
 							required
 						/>
-						<button className="rounded bg-slate-200 m-3 p-2">Submit</button>
+						<button className="btn">Submit</button>
 					</form>
 					<Link to="/forgot-password">Forgot Password?</Link>
 					<Link to="/sign-up" className="my-3">
