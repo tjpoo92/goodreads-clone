@@ -1,5 +1,6 @@
 import { useEffect, useState, useRef } from "react";
-import { supabase } from "../supabaseClient";
+import { auth } from "../firebase.config";
+import { onAuthStateChanged } from "firebase/auth";
 
 export const useAuthStatus = () => {
 	const _isMounted = useRef(true);
@@ -8,12 +9,12 @@ export const useAuthStatus = () => {
 
 	useEffect(() => {
 		if (_isMounted) {
-			setLoggedIn(supabase.auth.session());
-
-			supabase.auth.onAuthStateChange((_event, session) => {
-				setLoggedIn(session);
+			onAuthStateChanged(auth, (user) => {
+				if (user) {
+					setLoggedIn(true);
+				}
+				setCheckingStatus(false);
 			});
-			setCheckingStatus(false);
 		}
 		return () => {
 			_isMounted.current = false;

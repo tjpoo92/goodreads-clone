@@ -1,7 +1,9 @@
-import { supabase } from "../supabaseClient";
 import { useState, useEffect } from "react";
 import Spinner from "../components/Spinner";
+import { auth } from "../firebase.config";
+import { signOut } from "firebase/auth";
 import { toast } from "react-toastify";
+import { useNavigate } from "react-router-dom";
 
 function Profile() {
 	const [loading, setLoading] = useState(false);
@@ -11,22 +13,14 @@ function Profile() {
 		email: "",
 		password: "",
 	});
-
+	const navigate = useNavigate();
 	const { name, email } = formData;
-	const onSubmit = () => {};
-	const onClick = () => {
-		updateProfile && onSubmit();
-		setUpdateProfile((prevState) => !prevState);
+
+	const onLogout = () => {
+		auth.signOut();
+		navigate("/");
 	};
 
-	useEffect(() => {
-		const fetchUserData = async () => {
-			const user = await supabase.auth.user();
-			setFormData({ name: user.user_metadata.name, email: user.email });
-			console.log(user);
-		};
-		fetchUserData();
-	}, []);
 	return (
 		<div className="bg-gray-50 h-screen">
 			<div className="relative mx-3">
@@ -34,14 +28,14 @@ function Profile() {
 				<button
 					className="btn absolute top-0 right-0"
 					type="button"
-					onClick={() => supabase.auth.signOut()}>
+					onClick={onLogout}>
 					Sign Out
 				</button>
 			</div>
 			{loading ? (
 				<Spinner />
 			) : (
-				<form className="grid grid-cols-2 pt-24 mx-3" onSubmit={onSubmit}>
+				<form className="grid grid-cols-2 pt-24 mx-3">
 					<label htmlFor="name" className="p-2">
 						Name
 					</label>
@@ -87,7 +81,7 @@ function Profile() {
 						disabled={!updateProfile}
 						className="border-2 border-black rounded p-1 focus-visible:outline-none m-3"
 					/> */}
-					<button type="button" className="btn col-span-2" onClick={onClick}>
+					<button type="button" className="btn col-span-2">
 						{updateProfile ? "Done" : "Update Profile"}
 					</button>
 				</form>

@@ -1,7 +1,9 @@
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
-import { supabase } from "../supabaseClient";
+import { auth, db } from "../firebase.config";
+import { createUserWithEmailAndPassword } from "firebase/auth";
+import { setDoc, doc, serverTimestamp } from "firebase/firestore";
 import Spinner from "../components/Spinner";
 import GoogleSignIn from "../components/GoogleSignIn";
 
@@ -28,16 +30,14 @@ function SignUp() {
 		e.preventDefault();
 		try {
 			setLoading(true);
-			const { user, session, error } = await supabase.auth.signUp({
-				email: email,
-				password: password,
-			});
-
-			if (error) throw error;
-			if (user) {
-				navigate("/profile");
-			}
+			const userCredential = await createUserWithEmailAndPassword(
+				auth,
+				email,
+				password
+			);
+			userCredential.user && navigate("/profile");
 		} catch (error) {
+			console.log(error);
 			toast.error("Something went wrong with registration please try again");
 		} finally {
 			setLoading(false);

@@ -1,4 +1,3 @@
-import { supabase } from "../supabaseClient";
 import { useRef } from "react";
 // TODO: styling
 const RecoverPassword = ({ token, setRecoveryToken }) => {
@@ -6,15 +5,6 @@ const RecoverPassword = ({ token, setRecoveryToken }) => {
 
 	const handleNewPassword = async () => {
 		const newPassword = newPasswordRef.current.value;
-		const { error } = await supabase.auth.api.updateUser(token, {
-			password: newPassword,
-		});
-
-		if (!error) {
-			setRecoveryToken(null);
-		} else {
-			console.error(error);
-		}
 	};
 
 	return (
@@ -51,5 +41,3 @@ const RecoverPassword = ({ token, setRecoveryToken }) => {
 };
 
 export default RecoverPassword;
-
-// https://github.com/supabase/supabase/blob/master/examples/todo-list/react-todo-list/src/components/RecoverPassword.js

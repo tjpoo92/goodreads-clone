@@ -2,8 +2,6 @@ import { useState } from "react";
 import Spinner from "../components/Spinner";
 import { toast } from "react-toastify";
 
-import { supabase } from "../supabaseClient";
-
 function ForgotPassword() {
 	const [email, setEmail] = useState("");
 	const [loading, setLoading] = useState(false);
@@ -16,11 +14,6 @@ function ForgotPassword() {
 		e.preventDefault();
 		try {
 			setLoading(true);
-			const { data, error } = await supabase.auth.api.resetPasswordForEmail(
-				email
-			);
-			console.log(data);
-			if (error) throw error;
 		} catch (error) {
 			toast.error("Something went wrong please try again");
 		} finally {

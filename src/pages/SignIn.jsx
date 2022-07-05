@@ -1,7 +1,8 @@
-import { supabase } from "../supabaseClient";
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
+import { auth } from "../firebase.config";
+import { signInWithEmailAndPassword } from "firebase/auth";
 import Spinner from "../components/Spinner";
 import GoogleSignIn from "../components/GoogleSignIn";
 
@@ -28,14 +29,12 @@ function SignIn() {
 		e.preventDefault();
 		try {
 			setLoading(true);
-			const { user, error } = await supabase.auth.signIn({
-				email: email,
-				password: password,
-			});
-			if (error) throw error;
-			if (user) {
-				navigate("/");
-			}
+			const userCredential = await signInWithEmailAndPassword(
+				auth,
+				email,
+				password
+			);
+			userCredential.user && navigate("/");
 		} catch (error) {
 			toast.error("Something went wrong please try again");
 		} finally {
