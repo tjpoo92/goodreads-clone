@@ -1,8 +1,9 @@
 import googleIcon from "../assets/svg/googleIcon.svg";
-import { auth } from "../firebase.config";
+import { auth, db } from "../firebase.config";
 import { signInWithPopup, GoogleAuthProvider } from "firebase/auth";
 import { useLocation, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
+import { getDoc, serverTimestamp, setDoc, doc } from "firebase/firestore";
 
 function GoogleSignIn() {
 	const navigate = useNavigate();
@@ -13,6 +14,17 @@ function GoogleSignIn() {
 			const provider = new GoogleAuthProvider();
 			const result = await signInWithPopup(auth, provider);
 			const user = result.user;
+
+			const docRef = doc(db, "users", user.uid);
+			const docSnap = await getDoc(docRef);
+
+			if (!docSnap.exists()) {
+				await setDoc(doc(db, "users", user.uid), {
+					name: user.displayName,
+					email: user.email,
+					timestamp: serverTimestamp(),
+				});
+			}
 			navigate("/");
 		} catch (error) {
 			toast.error("Could not authorize with Google");

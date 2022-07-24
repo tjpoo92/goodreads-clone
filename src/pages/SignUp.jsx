@@ -2,7 +2,7 @@ import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import { auth, db } from "../firebase.config";
-import { createUserWithEmailAndPassword } from "firebase/auth";
+import { createUserWithEmailAndPassword, updateProfile } from "firebase/auth";
 import { setDoc, doc, serverTimestamp } from "firebase/firestore";
 import Spinner from "../components/Spinner";
 import GoogleSignIn from "../components/GoogleSignIn";
@@ -12,11 +12,12 @@ import GoogleSignIn from "../components/GoogleSignIn";
 function SignUp() {
 	const [loading, setLoading] = useState(false);
 	const [formData, setFormData] = useState({
+		name: "",
 		email: "",
 		password: "",
 	});
 
-	const { email, password } = formData;
+	const { name, email, password } = formData;
 	const navigate = useNavigate();
 
 	const onChange = (e) => {
@@ -35,7 +36,18 @@ function SignUp() {
 				email,
 				password
 			);
-			userCredential.user && navigate("/profile");
+			const user = userCredential.user;
+
+			updateProfile(auth.currentUser, {
+				displayName: name,
+			});
+			const formDataCopy = { ...formData };
+			delete formDataCopy.password;
+			formDataCopy.timestamp = serverTimestamp();
+
+			await setDoc(doc(db, "users", user.uid), formDataCopy);
+
+			navigate("/profile");
 		} catch (error) {
 			console.log(error);
 			toast.error("Something went wrong with registration please try again");
@@ -55,6 +67,14 @@ function SignUp() {
 					<form
 						onSubmit={onSubmit}
 						className="flex flex-col items-center justify-center">
+						<input
+							type="text"
+							className="border-2 border-black rounded p-1 focus-visible:outline-none m-3"
+							id="name"
+							placeholder="Your name"
+							value={name}
+							onChange={onChange}
+						/>
 						<input
 							id="email"
 							className="border-2 border-black rounded p-1 focus-visible:outline-none m-3"

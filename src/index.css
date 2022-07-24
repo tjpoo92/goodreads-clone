@@ -9,4 +9,21 @@
 		padding: theme("spacing.2");
 		margin: theme("spacing.3");
 	}
+
+	.txt-field-active {
+		border-radius: theme("borderRadius.DEFAULT");
+		border-width: theme("borderWidth.2");
+		border-color: theme("borderColor.black");
+		padding: theme("spacing.1");
+		margin: theme("spacing.3");
+	}
+
+	.txt-field {
+		border-radius: theme("borderRadius.DEFAULT");
+		border-width: theme("borderWidth.2");
+		border-color: theme("borderColor.black");
+		background-color: theme("colors.gray.200");
+		padding: theme("spacing.1");
+		margin: theme("spacing.3");
+	}
 }
