@@ -1,5 +1,5 @@
 import googleIcon from "../assets/svg/googleIcon.svg";
-import { auth, db } from "../firebase.config";
+import { auth, store } from "../firebase.config";
 import { signInWithPopup, GoogleAuthProvider } from "firebase/auth";
 import { useLocation, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
@@ -15,11 +15,11 @@ function GoogleSignIn() {
 			const result = await signInWithPopup(auth, provider);
 			const user = result.user;
 
-			const docRef = doc(db, "users", user.uid);
+			const docRef = doc(store, "users", user.uid);
 			const docSnap = await getDoc(docRef);
 
 			if (!docSnap.exists()) {
-				await setDoc(doc(db, "users", user.uid), {
+				await setDoc(doc(store, "users", user.uid), {
 					name: user.displayName,
 					email: user.email,
 					timestamp: serverTimestamp(),

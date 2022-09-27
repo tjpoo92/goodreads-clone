@@ -1,8 +1,11 @@
 import { useAuthStatus } from "../hooks/useAuthStatus";
+import { auth, store } from "../firebase.config";
+
 import Spinner from "../components/Spinner";
 import { toast } from "react-toastify";
 import { useState } from "react";
 import Modal from "react-modal";
+import { addDoc, setDoc, doc, collection } from "firebase/firestore";
 
 const customStyles = {
 	content: {
@@ -22,18 +25,54 @@ Modal.setAppElement("#root");
 function Bookshelf() {
 	const { loggedIn, checkingStatus } = useAuthStatus();
 	const [modalIsOpen, setModalIsOpen] = useState(false);
+	const [userInput, setUserInput] = useState({
+		shelfName: "",
+	});
+	const { shelfName } = userInput;
 
 	if (checkingStatus) {
 		return <Spinner />;
 	}
 
-	// !loggedIn && toast.warning("If you're not logged in data will not be saved");
+	!loggedIn &&
+		toast.warning(
+			"If you're not logged data will only be saved in your browser"
+		);
 	toast.clearWaitingQueue();
+
+	const writeData = async () => {
+		if (loggedIn) {
+			await addDoc(collection(store, "bookshelves"), {
+				shelfName: shelfName,
+				userRef: auth.currentUser.uid,
+			});
+		} else {
+			localStorage.setItem(
+				shelfName,
+				JSON.stringify({
+					book1: {
+						author: "John Green",
+						isbn: 121324156465,
+					},
+				})
+			);
+		}
+	};
 
 	const openModal = () => setModalIsOpen(true);
 	const closeModal = () => setModalIsOpen(false);
-	const onSubmit = () => {
+	const onSubmit = (e) => {
+		e.preventDefault();
+		writeData();
+
 		closeModal();
+	};
+
+	const onChange = (e) => {
+		setUserInput((prevState) => ({
+			...prevState,
+			[e.target.id]: e.target.value,
+		}));
 	};
 
 	return (
@@ -58,9 +97,11 @@ function Bookshelf() {
 					<input
 						type="text"
 						name="shelf-name"
-						id="shelf-name"
+						id="shelfName"
 						placeholder="Enter name"
 						required
+						value={shelfName}
+						onChange={onChange}
 					/>
 					<button className="btn" type="submit">
 						Create

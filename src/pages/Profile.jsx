@@ -1,6 +1,6 @@
 import { useState } from "react";
 import Spinner from "../components/Spinner";
-import { auth, db } from "../firebase.config";
+import { auth, store } from "../firebase.config";
 import { updateEmail, updateProfile, updatePassword } from "firebase/auth";
 import { updateDoc, doc } from "firebase/firestore";
 import { toast } from "react-toastify";
@@ -24,7 +24,7 @@ function Profile() {
 	};
 
 	const onSubmit = async () => {
-		const userRef = doc(db, "users", auth.currentUser.uid);
+		const userRef = doc(store, "users", auth.currentUser.uid);
 
 		try {
 			setLoading(true);

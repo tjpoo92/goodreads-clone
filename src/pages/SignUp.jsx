@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
-import { auth, db } from "../firebase.config";
+import { auth, store } from "../firebase.config";
 import { createUserWithEmailAndPassword, updateProfile } from "firebase/auth";
 import { setDoc, doc, serverTimestamp } from "firebase/firestore";
 import Spinner from "../components/Spinner";
@@ -45,7 +45,7 @@ function SignUp() {
 			delete formDataCopy.password;
 			formDataCopy.timestamp = serverTimestamp();
 
-			await setDoc(doc(db, "users", user.uid), formDataCopy);
+			await setDoc(doc(store, "users", user.uid), formDataCopy);
 
 			navigate("/profile");
 		} catch (error) {

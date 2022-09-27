@@ -20,10 +20,8 @@ Modal.setAppElement("#root");
 function BookResult({ book }) {
 	const [modalIsOpen, setModalIsOpen] = useState(false);
 
-	const id_amazon =
-		book.id_amazon === undefined ? book.title : book.id_amazon[0];
-	const id_overdrive =
-		book.id_overdrive === undefined ? book.title : book.id_overdrive[0];
+	const searchTitle = book.title.replaceAll(" ", "+");
+
 	const cover_i =
 		book.cover_i === undefined
 			? noImageFound
@@ -57,23 +55,16 @@ function BookResult({ book }) {
 						<p className="h-6">{book.first_publish_year}</p>
 					</div>
 				</div>
-				<div className="flex flex-col min-w-[40%]">
+				<div className="flex flex-col justify-around min-w-[40%]">
 					<button onClick={openModal} className="btn w-fit self-center">
 						Add To Bookshelf
 					</button>
 					<a
-						href={`https://www.amazon.com/s?k=${id_amazon}`}
+						href={`https://www.indiebound.org/search/book?keys=${searchTitle}`}
 						target="_blank"
 						rel="noreferrer"
 						className="btn w-fit hidden md:block self-center">
-						Buy On Amazon
-					</a>
-					<a
-						href={`https://www.overdrive.com/search?q=${id_overdrive}`}
-						target="_blank"
-						rel="noreferrer"
-						className="btn w-fit hidden md:block self-center">
-						Borrow from Overdrive
+						Buy Locally
 					</a>
 				</div>
 				<Modal
