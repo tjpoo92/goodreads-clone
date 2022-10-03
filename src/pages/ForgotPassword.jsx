@@ -1,10 +1,14 @@
 import { useState } from "react";
 import Spinner from "../components/Spinner";
 import { toast } from "react-toastify";
+import { sendPasswordResetEmail } from "firebase/auth";
+import { auth } from "../firebase.config";
+import { useNavigate } from "react-router-dom";
 
 function ForgotPassword() {
 	const [email, setEmail] = useState("");
 	const [loading, setLoading] = useState(false);
+	const navigate = useNavigate();
 
 	const onChange = (e) => {
 		setEmail(e.target.value);
@@ -14,6 +18,11 @@ function ForgotPassword() {
 		e.preventDefault();
 		try {
 			setLoading(true);
+			sendPasswordResetEmail(auth, email);
+			toast.success(
+				"Password reset email sent, please check spam/junk folders"
+			);
+			navigate("/sign-in");
 		} catch (error) {
 			toast.error("Something went wrong please try again");
 		} finally {

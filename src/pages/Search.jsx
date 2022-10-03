@@ -1,29 +1,12 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import { ReactComponent as SearchIcon } from "../assets/svg/magnifyingGlass.svg";
-import RecoverPassword from "../components/RecoverPassword";
 
 function Search() {
 	const [searchContent, setSearchContent] = useState("");
-	const [recoveryToken, setRecoveryToken] = useState(null);
 
 	const navigate = useNavigate();
-
-	useEffect(() => {
-		let url = window.location.hash;
-		let query = url.slice(1);
-		let result = {};
-
-		query.split("&").forEach((part) => {
-			const item = part.split("=");
-			result[item[0]] = decodeURIComponent(item[1]);
-		});
-
-		if (result.type === "recovery") {
-			setRecoveryToken(result.access_token);
-		}
-	}, []);
 
 	const onChange = (e) => {
 		setSearchContent(e.target.value);
@@ -45,15 +28,6 @@ function Search() {
 			toast.error("Search returned no results, please try again");
 		}
 	};
-
-	if (recoveryToken) {
-		return (
-			<RecoverPassword
-				token={recoveryToken}
-				setRecoveryToken={setRecoveryToken}
-			/>
-		);
-	}
 
 	return (
 		<div className="flex flex-col h-screen bg-gray-50">
