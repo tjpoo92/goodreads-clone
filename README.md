@@ -30,4 +30,7 @@ The goal of this project was to create a [GoodReads](https://www.goodreads.com/)
 
 #### Additional Notes:
 The base of this project started from a blog post ([not the blog post I read but it’s a good representation](https://www.vice.com/en/article/ev3qw7/how-to-quit-apple-microsoft-google-facebook-amazon)) I read about disconnecting yourself from the big technology companies such as Amazon and Google and how difficult it was to do so since they’re so ingrained into our daily lives.
-After reading that blog post, I started slowly switching my own habits. I started using alternatives to many Google and Amazon products such as Proton Mail (Gmail), HERE WeGo (Google Maps), DropBox (Google Drive), and Musicolet (Amazon Music, Google Music), however I was struggling to find a good app to replace GoodReads, which is owned by Amazon. So, I decided to start trying to build my own and this is my very first iteration of that. This is currently the second iteration of my front-end and I’ve started laying the foundation for creating my own [back-end](https://github.com/tjpoo92/readradar) as well.
+
+After reading that blog post, I started slowly switching my own habits. I started using alternatives to many Google and Amazon products such as Proton Mail (Gmail), HERE WeGo (Google Maps), DropBox (Google Drive), and Musicolet (Amazon Music, Google Music), however I was struggling to find a good app to replace GoodReads, which is owned by Amazon.
+
+So, I decided to start trying to build my own and this is my second iteration of my front-end and I’ve started laying the foundation for creating my own [back-end](https://github.com/tjpoo92/readradar) as well.
